@@ -10,7 +10,7 @@ type Props = {
 };
 
 function HoodieModel({ sleeveColor }: Props) {
-  const { scene } = useGLTF("/models/Untitled.glb");
+  const { scene } = useGLTF("/models/hoodie.glb");
 
   useEffect(() => {
     const rows: any[] = [];
