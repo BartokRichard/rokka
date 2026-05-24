@@ -50,7 +50,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <section className="relative min-h-screen px-8 pt-8 md:px-16">
+      <section className="relative min-h-screen px-8 pt-14 md:px-16">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_43%,rgba(255,255,255,0.96),rgba(244,238,229,0.5)_38%,rgba(226,199,166,0.34)_100%)]" />
 
         <div className="relative z-10 grid min-h-[calc(100vh-7rem)] grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_1.2fr_0.75fr]">
@@ -79,12 +79,12 @@ export default function LandingPage() {
                 className="
     font-caveat
     mt-1
-    text-[70px]
+    text-[50px]
     font-bold
     leading-[0.85]
     tracking-[-0.02em]
     text-[#d99a4d]
-    md:text-[86px]
+    md:text-[68px]
     pt-2
   "
               >
@@ -110,27 +110,19 @@ export default function LandingPage() {
           </div>
 
           <div className="relative flex min-h-[620px] items-center justify-center">
-            <div className="absolute left-1/2 top-[48%] h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff4e4] opacity-95 blur-[100px]" />
+            <div className="absolute left-1/2 top-[48%] h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff4e4] opacity-95 blur-[80px]" />
 
-            <div className="absolute left-1/2 top-[52%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f5d4a8]/45 blur-[90px]" />
+            <div className="absolute left-1/2 top-[52%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f5d4a8]/45 blur-[70px]" />
 
-            <div className="absolute left-1/2 top-[60%] h-28 w-[500px] -translate-x-1/2 rounded-full bg-black/18 blur-3xl" />
+            <div className="absolute left-1/2 top-[58%] h-24 w-[420px] -translate-x-1/2 rounded-full bg-black/18 blur-2xl" />
 
             <Image
               src="/images/landing_rokka.png"
               alt="ROKKA hoodie"
-              width={1100}
-              height={1400}
+              width={900}
+              height={1100}
               priority
-              className="
-      relative
-      z-10
-      h-[900px]
-      w-auto
-      object-contain
-      drop-shadow-2xl
-      scale-[1.08]
-    "
+              className="relative z-10 h-[760px] w-auto object-contain drop-shadow-2xl"
             />
           </div>
 
