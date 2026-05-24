@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.font-barlow {
+  font-family: var(--font-barlow);
+}
+.font-barlow-condensed {
+  font-family: var(--font-barlow-condensed);
+}
+
+.font-caveat {
+  font-family: var(--font-caveat);
+}
+
+.font-caveat {
+  font-family: var(--font-caveat), cursive;
+}
