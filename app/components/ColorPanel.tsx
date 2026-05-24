@@ -2,7 +2,7 @@
 
 import ColorGroup from "./ColorGroup";
 
-const sleeveColors = [
+const colors = [
   "#ff6b00",
   "#ffffff",
   "#000000",
@@ -12,17 +12,35 @@ const sleeveColors = [
 ];
 
 type Props = {
+  bodyColor: string;
+  setBodyColor: (color: string) => void;
+
   sleeveColor: string;
   setSleeveColor: (color: string) => void;
 };
 
-export default function ColorPanel({ sleeveColor, setSleeveColor }: Props) {
+export default function ColorPanel({
+  bodyColor,
+  setBodyColor,
+
+  sleeveColor,
+  setSleeveColor,
+}: Props) {
   return (
     <aside className="bg-black px-5 py-5 lg:min-h-0 lg:overflow-y-auto lg:px-8 lg:py-6">
+      {/*
+      <ColorGroup
+        title="TEST"
+        value={bodyColor}
+        colors={colors}
+        onChange={setBodyColor}
+      />
+      */}
+
       <ColorGroup
         title="UJJAK"
         value={sleeveColor}
-        colors={sleeveColors}
+        colors={colors}
         onChange={setSleeveColor}
       />
 
@@ -30,7 +48,9 @@ export default function ColorPanel({ sleeveColor, setSleeveColor }: Props) {
         <div className="text-[11px] uppercase tracking-[0.2em] text-white/35">
           Összesen
         </div>
+
         <div className="mt-3 text-2xl font-light">249 Lei</div>
+
         <button className="mt-5 w-full rounded bg-orange-600 px-6 py-4 text-sm font-bold">
           KOSÁRBA
         </button>
