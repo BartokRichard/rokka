@@ -135,7 +135,7 @@ export default function LandingPage() {
           <div
             className="
   relative
-  -mt-44
+  -mt-24
   flex
   min-h-[420px]
   items-start
