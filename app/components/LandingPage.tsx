@@ -96,7 +96,6 @@ export default function LandingPage() {
                 <br />
                 pár kattintással. Egyedi. Modern.
                 <br />
-                <span className="font-bold text-[#d96b22]">100% ROKKA.</span>
               </p>
 
               <Link
