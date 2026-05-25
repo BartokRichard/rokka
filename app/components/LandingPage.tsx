@@ -100,7 +100,31 @@ export default function LandingPage() {
 
               <Link
                 href="/configurator"
-                className="mt-9 inline-flex h-[64px] min-w-[330px] items-center justify-between rounded-xl bg-[#e1a35c] px-9 text-[17px] font-black uppercase tracking-wide text-white shadow-xl shadow-orange-900/15 transition hover:bg-[#d9903f]"
+                className="
+  mt-9
+  inline-flex
+  h-[60px]
+  w-full
+  max-w-[320px]
+  items-center
+  justify-center gap-4
+  rounded-xl
+  bg-[#e1a35c]
+  px-5
+  text-[16px]
+  font-black
+  uppercase
+  tracking-wide
+  text-white
+  shadow-xl
+  shadow-orange-900/15
+  transition
+  hover:bg-[#d9903f]
+  md:h-[64px]
+  md:max-w-[330px]
+  md:px-9
+  md:text-[17px]
+"
               >
                 Tervezd meg most
                 <ArrowRight size={26} />
@@ -108,10 +132,22 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="relative flex min-h-[620px] items-center justify-center">
-            <div className="absolute left-1/2 top-[48%] h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff4e4] opacity-95 blur-[80px]" />
+          <div
+            className="
+  relative
+  -mt-44
+  flex
+  min-h-[420px]
+  items-start
+  justify-center
+  md:min-h-[620px]
+  md:items-center
+  md:mt-0
+"
+          >
+            <div className="absolute left-1/2 top-[48%] h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff4e4] opacity-95 blur-[80px]" />
 
-            <div className="absolute left-1/2 top-[52%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f5d4a8]/45 blur-[70px]" />
+            <div className="absolute left-1/2 top-[52%] h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f5d4a8]/45 blur-[70px]" />
 
             <div className="absolute left-1/2 top-[58%] h-24 w-[420px] -translate-x-1/2 rounded-full bg-black/18 blur-2xl" />
 
@@ -121,7 +157,15 @@ export default function LandingPage() {
               width={900}
               height={1100}
               priority
-              className="relative z-10 h-[760px] w-auto object-contain drop-shadow-2xl"
+              className="
+  relative
+  z-10
+  h-[680px]
+  w-auto
+  object-contain
+  drop-shadow-2xl
+  md:h-[760px]
+"
             />
           </div>
 
