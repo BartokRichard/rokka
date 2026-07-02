@@ -19,7 +19,7 @@ type Props = {
 
 export default function ModelSelector({ products, onSelect }: Props) {
   return (
-    <section className="min-h-screen overflow-hidden bg-[#f4eee5] text-[#20221f]">
+    <section className="min-h-screen overflow-x-hidden bg-[#f4eee5] text-[#20221f]">
       <header className="flex h-24 items-center justify-between border-b border-black/5 bg-[#f4eee5]/90 px-8 backdrop-blur md:px-16">
         <Link href="/" className="flex items-center">
           <Image
@@ -67,7 +67,7 @@ export default function ModelSelector({ products, onSelect }: Props) {
               </p>
             </div>
 
-            <p className="max-w-sm border-l border-black/10 pl-8 font-barlow text-base leading-relaxed text-black/70">
+            <p className="max-w-sm border-l border-black/10 pl-8 font-barlow text-base leading-relaxed text-black/70 max-md:border-l-0 max-md:pl-0">
               Minden modell egyedi szabással készült, hogy a te stílusodhoz és
               életedhez illeszkedjen.
             </p>
@@ -108,10 +108,11 @@ export default function ModelSelector({ products, onSelect }: Props) {
                   </div>
 
                   <div className="mt-auto pt-5">
-                    <div className="flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#e1a35c] px-3 shadow-lg shadow-orange-900/10">
-                      <span className="whitespace-nowrap font-barlow text-[12px] font-black uppercase leading-none text-white">
+                    <div className="flex h-12 w-full min-w-0 items-center justify-center gap-2 rounded-md bg-[#e1a35c] px-2 shadow-lg shadow-orange-900/10 sm:px-3">
+                      <span className="min-w-0 truncate whitespace-nowrap font-barlow text-[11px] font-black uppercase leading-none text-white sm:text-[12px]">
                         Kiválasztom
                       </span>
+
                       <ArrowRight
                         size={17}
                         strokeWidth={2.5}
