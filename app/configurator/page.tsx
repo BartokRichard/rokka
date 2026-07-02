@@ -2,51 +2,112 @@
 
 import { useState } from "react";
 
-import Sidebar from "../components/Sidebar";
-import ProductPreview from "../components/ProductPreview";
-import ColorPanel from "../components/ColorPanel";
-import HoodieViewer from "../components/HoodieViewer";
+import ModelSelector from "../components/ModelSelector";
+import { PRODUCTS, Product, MaterialOption } from "../data/products";
+import ConfiguratorHeader from "./components/ConfiguratorHeader";
+import MaterialSelectorView from "./views/MaterialSelectorView";
+import ColorEditorView from "./views/ColorEditorView";
+import SizeEditorView from "./views/SizeEditorView";
 
-import { Maximize2 } from "lucide-react";
+type ConfiguratorView = "color" | "size";
 
 export default function ConfiguratorPage() {
-  const [bodyColor, setBodyColor] = useState("#ffffff");
-  const [sleeveColor, setSleeveColor] = useState("#ff6b00");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedMaterial, setSelectedMaterial] =
+    useState<MaterialOption | null>(null);
+
+  const [activeView, setActiveView] = useState<ConfiguratorView>("color");
+
+  const [colorValues, setColorValues] = useState<Record<string, string>>({});
   const [fullView, setFullView] = useState(false);
 
-  return (
-    <main className="min-h-screen w-screen overflow-x-hidden bg-[#101010] text-white">
-      <div className="mx-auto grid min-h-screen w-full bg-[#151515] lg:h-screen lg:grid-cols-[240px_minmax(0,1fr)_370px] lg:overflow-hidden lg:border lg:border-white/10">
-        <Sidebar />
+  const [size, setSize] = useState("");
+  const [height, setHeight] = useState("");
+  const [bust, setBust] = useState("");
 
-        <section className="flex min-h-[520px] flex-col overflow-hidden lg:min-h-0">
-          <header className="flex h-16 shrink-0 items-center justify-center gap-6 bg-[#181818] px-4 text-sm text-white/70 lg:h-[72px] lg:justify-end lg:px-10">
-            <button>Mentés</button>
-            <button>Megosztás</button>
-
-            <button
-              onClick={() => setFullView(!fullView)}
-              className="flex items-center gap-2"
-            >
-              <Maximize2 size={16} />
-              Teljes nézet
-            </button>
-          </header>
-
-          {fullView ? (
-            <HoodieViewer sleeveColor={sleeveColor} />
-          ) : (
-            <ProductPreview bodyColor={bodyColor} sleeveColor={sleeveColor} />
-          )}
-        </section>
-
-        <ColorPanel
-          bodyColor={bodyColor}
-          setBodyColor={setBodyColor}
-          sleeveColor={sleeveColor}
-          setSleeveColor={setSleeveColor}
+  if (!selectedProduct) {
+    return (
+      <main className="min-h-screen w-full overflow-x-hidden bg-[#f4eee5]">
+        <ModelSelector
+          products={PRODUCTS}
+          onSelect={(product) => {
+            setSelectedProduct(product);
+            setSelectedMaterial(null);
+            setActiveView("color");
+            setColorValues({});
+            setFullView(false);
+            setSize("");
+            setHeight("");
+            setBust("");
+          }}
         />
-      </div>
+      </main>
+    );
+  }
+
+  const currentStep = !selectedMaterial ? 2 : activeView === "size" ? 4 : 3;
+
+  return (
+    <main className="min-h-screen w-screen overflow-x-hidden bg-[#f4eee5] text-[#20221f]">
+      <ConfiguratorHeader currentStep={currentStep} />
+
+      {!selectedMaterial ? (
+        <MaterialSelectorView
+          product={selectedProduct}
+          onBack={() => {
+            setSelectedProduct(null);
+            setSelectedMaterial(null);
+            setActiveView("color");
+            setColorValues({});
+            setFullView(false);
+            setSize("");
+            setHeight("");
+            setBust("");
+          }}
+          onSelect={(material) => {
+            setSelectedMaterial(material);
+            setActiveView("color");
+          }}
+        />
+      ) : activeView === "size" ? (
+        <SizeEditorView
+          product={selectedProduct}
+          material={selectedMaterial}
+          colorValues={colorValues}
+          size={size}
+          setSize={setSize}
+          height={height}
+          setHeight={setHeight}
+          bust={bust}
+          setBust={setBust}
+          onBack={() => setActiveView("color")}
+          onNext={() => {
+            console.log({
+              product: selectedProduct,
+              material: selectedMaterial,
+              colorValues,
+              size,
+              height,
+              bust,
+            });
+          }}
+        />
+      ) : (
+        <ColorEditorView
+          product={selectedProduct}
+          material={selectedMaterial}
+          colorValues={colorValues}
+          setColorValues={setColorValues}
+          fullView={fullView}
+          setFullView={setFullView}
+          onBack={() => {
+            setSelectedMaterial(null);
+            setActiveView("color");
+            setFullView(false);
+          }}
+          onNext={() => setActiveView("size")}
+        />
+      )}
     </main>
   );
 }

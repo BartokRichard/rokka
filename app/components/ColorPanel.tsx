@@ -1,60 +1,91 @@
 "use client";
 
-import ColorGroup from "./ColorGroup";
+import { ColorPart } from "../data/products";
 
-const colors = [
+const COLORS = [
   "#ff6b00",
   "#ffffff",
   "#000000",
-  "#7a1cac",
+  "#8b2bc2",
   "#3b82f6",
-  "#6ba4b8",
+  "#7bb6c8",
 ];
 
 type Props = {
-  bodyColor: string;
-  setBodyColor: (color: string) => void;
-
-  sleeveColor: string;
-  setSleeveColor: (color: string) => void;
+  colorParts: ColorPart[];
+  colorValues: Record<string, string>;
+  setColorValues: (values: Record<string, string>) => void;
 };
 
 export default function ColorPanel({
-  bodyColor,
-  setBodyColor,
-
-  sleeveColor,
-  setSleeveColor,
+  colorParts,
+  colorValues,
+  setColorValues,
 }: Props) {
   return (
-    <aside className="bg-black px-5 py-5 lg:min-h-0 lg:overflow-y-auto lg:px-8 lg:py-6">
-      {/*
-      <ColorGroup
-        title="TEST"
-        value={bodyColor}
-        colors={colors}
-        onChange={setBodyColor}
-      />
-      */}
+    <aside className="rounded-[30px] border border-black/10 bg-white/45 p-8 shadow-xl shadow-black/5">
+      <p className="font-barlow text-xs font-black uppercase tracking-[0.25em] text-[#d99a4d]">
+        Variálható részek
+      </p>
 
-      <ColorGroup
-        title="UJJAK"
-        value={sleeveColor}
-        colors={colors}
-        onChange={setSleeveColor}
-      />
+      <h2 className="mt-3 font-barlow-condensed text-[42px] font-bold uppercase leading-none">
+        Színezés
+      </h2>
 
-      <div className="mt-6 border-t border-white/10 pt-6 lg:hidden">
-        <div className="text-[11px] uppercase tracking-[0.2em] text-white/35">
-          Összesen
-        </div>
-
-        <div className="mt-3 text-2xl font-light">249 Lei</div>
-
-        <button className="mt-5 w-full rounded bg-orange-600 px-6 py-4 text-sm font-bold">
-          KOSÁRBA
-        </button>
+      <div className="mt-8 space-y-7">
+        {colorParts.map((part) => (
+          <ColorGroup
+            key={part.id}
+            part={part}
+            selected={colorValues[part.id] ?? part.defaultColor}
+            onSelect={(color) =>
+              setColorValues({
+                ...colorValues,
+                [part.id]: color,
+              })
+            }
+          />
+        ))}
       </div>
     </aside>
+  );
+}
+
+function ColorGroup({
+  part,
+  selected,
+  onSelect,
+}: {
+  part: ColorPart;
+  selected: string;
+  onSelect: (color: string) => void;
+}) {
+  return (
+    <div className="border-t border-black/10 pt-5">
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <h3 className="font-barlow text-xs font-black uppercase tracking-[0.18em]">
+          {part.label}
+        </h3>
+
+        <span className="font-barlow text-sm font-semibold text-black/45">
+          {selected}
+        </span>
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        {COLORS.map((color) => (
+          <button
+            key={color}
+            onClick={() => onSelect(color)}
+            className={`h-10 w-10 rounded-full border transition ${
+              selected === color
+                ? "scale-110 border-[#d99a4d] ring-4 ring-[#d99a4d]/20"
+                : "border-black/15"
+            }`}
+            style={{ backgroundColor: color }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
