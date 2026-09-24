@@ -3,7 +3,7 @@ import Step from "./Step";
 
 export default function Sidebar() {
   return (
-    <aside className="bg-black lg:flex lg:min-h-0 lg:flex-col">
+    <aside className="bg-[#674b37] lg:flex lg:min-h-0 lg:flex-col">
       <div className="flex h-[110px] items-center justify-center border-b border-white/10 lg:h-[128px]">
         <Image
           src="/images/logo.jpg"

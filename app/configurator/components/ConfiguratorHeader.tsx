@@ -2,15 +2,30 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Palette, Ruler, Shirt, ShoppingBag, User } from "lucide-react";
+import {
+  Palette,
+  Rabbit,
+  Ruler,
+  Shirt,
+  Sparkles,
+} from "lucide-react";
+import CartButton from "../../components/CartButton";
+import { useLanguage } from "../../i18n/LanguageProvider";
 
 type Props = {
   currentStep: number;
+  extraStepLabel?: string;
 };
 
-export default function ConfiguratorHeader({ currentStep }: Props) {
+export default function ConfiguratorHeader({
+  currentStep,
+  extraStepLabel,
+}: Props) {
+  const hasExtraStep = Boolean(extraStepLabel);
+  const { t } = useLanguage();
+
   return (
-    <header className="flex h-24 items-center justify-between border-b border-black/5 bg-[#f4eee5]/90 px-8 backdrop-blur md:px-16">
+    <header className="flex h-24 items-center justify-between border-b border-black/5 bg-[#f4eee5]/90 px-4 backdrop-blur sm:px-8 md:px-16">
       <Link href="/" className="flex items-center">
         <Image
           src="/images/logo_trans.png"
@@ -18,11 +33,11 @@ export default function ConfiguratorHeader({ currentStep }: Props) {
           width={145}
           height={80}
           priority
-          className="h-auto w-[125px] object-contain mix-blend-multiply"
+          className="h-auto w-[105px] object-contain mix-blend-multiply sm:w-[125px]"
         />
       </Link>
 
-      <div className="hidden items-center gap-8 lg:flex">
+      <div className="hidden items-center gap-5 lg:flex">
         <Step
           active={currentStep >= 1}
           number="01"
@@ -37,24 +52,40 @@ export default function ConfiguratorHeader({ currentStep }: Props) {
           icon={<Shirt size={20} />}
         />
         <Line />
+        {hasExtraStep && (
+          <>
+            <Step
+              active={currentStep >= 3}
+              number="03"
+              label={t(extraStepLabel ?? "")}
+              icon={
+                extraStepLabel === "Fül" ? (
+                  <Rabbit size={20} />
+                ) : (
+                  <Sparkles size={20} />
+                )
+              }
+            />
+            <Line />
+          </>
+        )}
         <Step
-          active={currentStep >= 3}
-          number="03"
+          active={currentStep >= (hasExtraStep ? 4 : 3)}
+          number={hasExtraStep ? "04" : "03"}
           label="Szín"
           icon={<Palette size={20} />}
         />
         <Line />
         <Step
-          active={currentStep >= 4}
-          number="04"
+          active={currentStep >= (hasExtraStep ? 5 : 4)}
+          number={hasExtraStep ? "05" : "04"}
           label="Méret"
           icon={<Ruler size={20} />}
         />
       </div>
 
       <div className="flex items-center gap-5">
-        <User size={22} strokeWidth={1.7} />
-        <ShoppingBag size={22} strokeWidth={1.7} />
+        <CartButton />
       </div>
     </header>
   );
@@ -71,6 +102,7 @@ function Step({
   label: string;
   icon: React.ReactNode;
 }) {
+  const { t } = useLanguage();
   return (
     <div className="flex flex-col items-center gap-1.5">
       <div
@@ -89,12 +121,12 @@ function Step({
         }`}
       >
         <div>{number}</div>
-        <div>{label}</div>
+        <div>{t(label)}</div>
       </div>
     </div>
   );
 }
 
 function Line() {
-  return <div className="h-px w-24 bg-black/20" />;
+  return <div className="h-px w-16 bg-black/20" />;
 }

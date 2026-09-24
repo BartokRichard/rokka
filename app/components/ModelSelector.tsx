@@ -7,10 +7,10 @@ import {
   Shirt,
   Palette,
   Ruler,
-  User,
-  ShoppingBag,
 } from "lucide-react";
 import { Product } from "../data/products";
+import CartButton from "./CartButton";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Props = {
   products: Product[];
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function ModelSelector({ products, onSelect }: Props) {
+  const { t } = useLanguage();
   return (
     <section className="min-h-screen overflow-x-hidden bg-[#f4eee5] text-[#20221f]">
       <header className="flex h-24 items-center justify-between border-b border-black/5 bg-[#f4eee5]/90 px-8 backdrop-blur md:px-16">
@@ -43,8 +44,7 @@ export default function ModelSelector({ products, onSelect }: Props) {
         </div>
 
         <div className="flex items-center gap-5">
-          <User size={22} strokeWidth={1.7} />
-          <ShoppingBag size={22} strokeWidth={1.7} />
+          <CartButton />
         </div>
       </header>
 
@@ -59,17 +59,16 @@ export default function ModelSelector({ products, onSelect }: Props) {
 
             <div>
               <h1 className="font-barlow-condensed text-[52px] font-bold uppercase leading-[0.85] tracking-[-0.045em] md:text-[68px]">
-                Válaszd ki a modellt
+                {t("Válaszd ki a modellt")}
               </h1>
 
               <p className="font-caveat mt-2 text-[30px] font-semibold leading-none text-[#d99a4d] md:text-[38px]">
-                Találd meg a hozzád illő fazont.
+                {t("Találd meg a hozzád illő fazont.")}
               </p>
             </div>
 
             <p className="max-w-sm border-l border-black/10 pl-8 font-barlow text-base leading-relaxed text-black/70 max-md:border-l-0 max-md:pl-0">
-              Minden modell egyedi szabással készült, hogy a te stílusodhoz és
-              életedhez illeszkedjen.
+              {t("Minden modell egyedi szabással készült, hogy a te stílusodhoz és életedhez illeszkedjen.")}
             </p>
           </div>
 
@@ -80,13 +79,23 @@ export default function ModelSelector({ products, onSelect }: Props) {
                 onClick={() => onSelect(product)}
                 className="group grid min-h-[300px] w-full max-w-[405px] grid-cols-[150px_minmax(0,1fr)] overflow-hidden rounded-2xl bg-[#f4eee5]/90 p-4 text-left shadow-xl shadow-black/5 backdrop-blur transition hover:-translate-y-1 hover:bg-[#f4eee5] md:w-[calc(50%-12px)] xl:w-[calc(25%-18px)]"
               >
-                <div className="relative h-full min-h-[268px] overflow-hidden rounded-lg bg-[#dedbd8]">
+                <div
+                  className={`relative h-full min-h-[268px] overflow-hidden rounded-lg ${
+                    product.cardImageFit === "contain" ? "bg-[#cb8555]" : "bg-[#dedbd8]"
+                  }`}
+                >
                   <Image
-                    src={product.image}
+                    src={product.cardImage ?? product.image}
                     alt={product.name}
                     fill
+                    sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+                    unoptimized
                     priority={product.id === products[0]?.id}
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className={
+                      product.cardImageFit === "contain"
+                        ? "object-contain object-center"
+                        : "object-cover transition duration-500 group-hover:scale-105"
+                    }
                   />
                 </div>
 
@@ -96,21 +105,21 @@ export default function ModelSelector({ products, onSelect }: Props) {
                   </h2>
 
                   <p className="mt-3 font-barlow text-[15px] font-medium leading-relaxed text-[#d99a4d]">
-                    {product.subtitle}
+                    {t(product.subtitle)}
                   </p>
 
                   <div className="my-5 h-px bg-black/10" />
 
                   <div className="space-y-1 font-barlow text-[13px] font-bold leading-tight">
                     {product.prices.slice(0, 3).map((price) => (
-                      <p key={price}>{price}</p>
+                      <p key={price}>{t(price)}</p>
                     ))}
                   </div>
 
                   <div className="mt-auto pt-5">
                     <div className="flex h-12 w-full min-w-0 items-center justify-center gap-2 rounded-md bg-[#e1a35c] px-2 shadow-lg shadow-orange-900/10 sm:px-3">
                       <span className="min-w-0 truncate whitespace-nowrap font-barlow text-[11px] font-black uppercase leading-none text-white sm:text-[12px]">
-                        Kiválasztom
+                        {t("Kiválasztom")}
                       </span>
 
                       <ArrowRight
@@ -141,6 +150,7 @@ function Step({
   label: string;
   icon: React.ReactNode;
 }) {
+  const { t } = useLanguage();
   return (
     <div className="flex flex-col items-center gap-1.5">
       <div
@@ -159,7 +169,7 @@ function Step({
         }`}
       >
         <div>{number}</div>
-        <div>{label}</div>
+        <div>{t(label)}</div>
       </div>
     </div>
   );

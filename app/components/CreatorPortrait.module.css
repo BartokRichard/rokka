@@ -1,0 +1,68 @@
+.stage {
+  max-height: 900px;
+  touch-action: pan-y;
+}
+
+.finishedImage {
+  animation: pieceEnter 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.curtain {
+  clip-path: inset(0 calc(100% - var(--creator-split)) 0 0);
+  will-change: clip-path;
+}
+
+.animated .curtain {
+  transition: clip-path 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.seam {
+  left: var(--creator-split);
+  width: 7px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(
+    to bottom,
+    #f5dfbd 0 7px,
+    #bd7634 7px 11px,
+    transparent 11px 18px
+  );
+  box-shadow:
+    -2px 0 0 rgb(37 40 32 / 55%),
+    2px 0 0 rgb(37 40 32 / 55%),
+    0 0 18px rgb(236 178 97 / 50%);
+  will-change: left;
+}
+
+.animated .seam {
+  transition: left 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.handle {
+  animation: handlePulse 2.6s ease-in-out infinite;
+}
+
+.range {
+  touch-action: pan-y;
+}
+
+@keyframes pieceEnter {
+  from { opacity: 0.4; transform: scale(1.06); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes handlePulse {
+  0%, 100% { box-shadow: 0 10px 30px rgb(0 0 0 / 50%), 0 0 0 0 rgb(229 170 99 / 25%); }
+  50% { box-shadow: 0 10px 30px rgb(0 0 0 / 50%), 0 0 0 12px rgb(229 170 99 / 0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finishedImage,
+  .handle {
+    animation: none;
+  }
+
+  .animated .curtain,
+  .animated .seam {
+    transition: none;
+  }
+}

@@ -1,27 +1,31 @@
 "use client";
 
-import { ColorPart } from "../data/products";
+import Image from "next/image";
+
+import { ColorOption, ColorPart } from "../data/products";
 
 type Props = {
   sampleImage: string;
   colorParts: ColorPart[];
+  colorOptions: ColorOption[];
   colorValues?: Record<string, string>;
 };
 
-const PREVIEW_SCALE = 1.1;
+const PREVIEW_INSET = "8%";
 
 export default function ProductPreview({
   sampleImage,
   colorParts,
+  colorOptions,
   colorValues = {},
 }: Props) {
-  const previewHeight = `${PREVIEW_SCALE * 100}%`;
+  const hasDarkSampleBackdrop = /\/(?:FoxHoodieSample\.webp|PrettyHoodie\.png)(?:\?|$)/.test(sampleImage);
 
   return (
-    <section className="relative h-full w-full overflow-hidden bg-[#efe7da]">
+    <section className={`relative h-full w-full overflow-hidden ${hasDarkSampleBackdrop ? "bg-[#d9c7ad]" : "bg-[#efe7da]"}`}>
       {/* Háttér */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,.98),rgba(244,238,229,.82)_55%,rgba(226,199,166,.25)_100%)]" />
+        <div className={`absolute inset-0 ${hasDarkSampleBackdrop ? "bg-[radial-gradient(circle_at_50%_18%,#ede1cf_0%,#d9c7ad_65%,#c6ac89_100%)]" : "bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,.98),rgba(244,238,229,.82)_55%,rgba(226,199,166,.25)_100%)]"}`} />
 
         <div className="absolute inset-0 opacity-20">
           <div className="absolute left-1/4 top-0 h-full w-px bg-[#d8c4a4]" />
@@ -35,61 +39,85 @@ export default function ProductPreview({
       </div>
 
       {/* SAMPLE */}
-      <img
-        src={sampleImage}
-        alt="hoodie"
-        className="absolute bottom-0 left-1/2 z-10 w-auto max-w-none -translate-x-1/2 object-contain"
+      <div
+        className="absolute z-10"
         style={{
-          height: previewHeight,
+          inset: PREVIEW_INSET,
+          ...(hasDarkSampleBackdrop ? {
+            maskImage: `url("${sampleImage}")`,
+            maskMode: "luminance" as const,
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+            maskSize: "contain",
+          } : {}),
         }}
-      />
+      >
+        <Image
+          src={sampleImage}
+          alt="hoodie"
+          fill
+          sizes="(min-width: 1024px) 65vw, 100vw"
+          className="object-contain object-center"
+        />
+      </div>
 
       {/* SZÍNEZHETŐ MASZKOK */}
       {colorParts.map((part, index) => (
         <ColorMask
           key={part.id}
-          color={colorValues[part.id] ?? part.defaultColor}
+          fill={
+            colorOptions.find(
+              (option) =>
+                option.id === (colorValues[part.id] ?? part.defaultColor),
+            ) ?? {
+              id: part.defaultColor,
+              label: part.defaultColor,
+              hex: colorValues[part.id] ?? part.defaultColor,
+            }
+          }
           mask={part.mask}
           zIndex={20 + index}
-          height={previewHeight}
         />
       ))}
 
-      <div className="pointer-events-none absolute bottom-5 left-1/2 z-40 h-10 w-64 -translate-x-1/2 rounded-full bg-black/20 blur-xl" />
+      <div className="pointer-events-none absolute bottom-[7%] left-1/2 z-40 h-8 w-[36%] max-w-64 -translate-x-1/2 rounded-full bg-black/15 blur-xl" />
     </section>
   );
 }
 
 function ColorMask({
-  color,
+  fill,
   mask,
   zIndex,
-  height,
 }: {
-  color: string;
+  fill: ColorOption;
   mask: string;
   zIndex: number;
-  height: string;
 }) {
   return (
     <div
-      className="absolute bottom-0 left-1/2 w-auto max-w-none -translate-x-1/2"
+      className="absolute"
       style={{
+        inset: PREVIEW_INSET,
         zIndex,
-        height,
-        aspectRatio: "1 / 1",
-        backgroundColor: color,
+        backgroundColor: fill.hex ?? "#ffffff",
+        backgroundImage: fill.texture
+          ? `url("${fill.texture.src}")`
+          : undefined,
+        backgroundSize: fill.texture?.backgroundSize,
+        backgroundPosition: fill.texture?.backgroundPosition,
+        backgroundRepeat: fill.texture?.backgroundRepeat ?? "no-repeat",
         opacity: 0.72,
         mixBlendMode: "multiply",
 
         WebkitMaskImage: `url("${mask}")`,
         WebkitMaskRepeat: "no-repeat",
-        WebkitMaskPosition: "center bottom",
+        WebkitMaskPosition: "center",
         WebkitMaskSize: "contain",
 
         maskImage: `url("${mask}")`,
         maskRepeat: "no-repeat",
-        maskPosition: "center bottom",
+        maskPosition: "center",
         maskSize: "contain",
       }}
     />

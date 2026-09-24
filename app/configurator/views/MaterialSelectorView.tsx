@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Product, MaterialOption } from "../../data/products";
+import {
+  getCurrentPrice,
+  Product,
+  MaterialOption,
+} from "../../data/products";
+import { useLanguage } from "../../i18n/LanguageProvider";
 
 type Props = {
   product: Product;
@@ -15,6 +20,7 @@ export default function MaterialSelectorView({
   onBack,
   onSelect,
 }: Props) {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[calc(100vh-96px)] overflow-x-hidden bg-[#f4eee5] pb-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,255,255,0.95),rgba(244,238,229,0.65)_45%,rgba(226,199,166,0.26)_100%)]" />
@@ -25,7 +31,7 @@ export default function MaterialSelectorView({
           className="mb-6 flex items-center gap-2 font-barlow text-sm font-semibold text-black/60 transition hover:text-black"
         >
           <ArrowLeft size={16} />
-          Modell váltása
+          {t("Modell váltása")}
         </button>
 
         <div className="mb-8 grid items-center gap-7 lg:grid-cols-[0.12fr_1fr_0.42fr]">
@@ -35,17 +41,16 @@ export default function MaterialSelectorView({
 
           <div>
             <h1 className="font-barlow-condensed text-[52px] font-bold uppercase leading-[0.85] tracking-[-0.045em] md:text-[68px]">
-              Válassz anyagot
+              {t("Válassz anyagot")}
             </h1>
 
             <p className="font-caveat mt-2 text-[30px] font-semibold leading-none text-[#d99a4d] md:text-[38px]">
-              Tapintásban is legyen tökéletes.
+              {t("Tapintásban is legyen tökéletes.")}
             </p>
           </div>
 
           <p className="max-w-sm border-l border-black/10 pl-8 font-barlow text-base leading-relaxed text-black/70 max-md:border-l-0 max-md:pl-0">
-            A kiválasztott modellhez válaszd ki az anyagot. Ezután tudod majd a
-            színeket személyre szabni.
+            {t("A kiválasztott modellhez válaszd ki az anyagot. Ezután tudod majd a színeket személyre szabni.")}
           </p>
         </div>
 
@@ -57,6 +62,8 @@ export default function MaterialSelectorView({
                   src={product.image}
                   alt={product.name}
                   fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  unoptimized
                   priority
                   className="object-cover object-center"
                 />
@@ -64,7 +71,7 @@ export default function MaterialSelectorView({
 
               <div className="flex min-w-0 flex-col justify-center px-7 py-8 md:px-9">
                 <p className="font-barlow text-xs font-black uppercase tracking-[0.25em] text-[#d99a4d]">
-                  Kiválasztott modell
+                  {t("Kiválasztott modell")}
                 </p>
 
                 <h2 className="mt-3 max-w-full break-words font-barlow-condensed text-[38px] font-bold uppercase leading-[0.9] tracking-[-0.04em] sm:text-[44px] md:text-[54px] lg:text-[62px]">
@@ -72,7 +79,11 @@ export default function MaterialSelectorView({
                 </h2>
 
                 <p className="mt-5 font-barlow text-[18px] text-black/60 md:text-[20px]">
-                  {product.subtitle}
+                  {t(product.subtitle)}
+                </p>
+
+                <p className="mt-4 max-w-xl font-barlow text-sm leading-relaxed text-black/50">
+                  {t(product.description)}
                 </p>
               </div>
             </div>
@@ -87,13 +98,11 @@ export default function MaterialSelectorView({
               >
                 <div>
                   <h3 className="font-barlow-condensed text-[42px] font-bold uppercase leading-none md:text-[46px]">
-                    {material.name}
+                    {t(material.name)}
                   </h3>
 
                   <p className="mt-3 font-barlow text-[20px] font-medium text-black/55">
-                    {material.price
-                      ? `${material.price} ${material.currency}`
-                      : material.note}
+                    {t(getCurrentPrice(product, material))}
                   </p>
                 </div>
 

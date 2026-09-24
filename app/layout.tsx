@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Barlow_Condensed, Caveat } from "next/font/google";
+import CartProvider from "./cart/CartProvider";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import LanguageProvider from "./i18n/LanguageProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,7 +44,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${barlowCondensed.variable} ${caveat.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
+        <LanguageProvider>
+          <CartProvider>{children}</CartProvider>
+          <LanguageSwitcher />
+        </LanguageProvider>
       </body>
     </html>
   );
